@@ -1,0 +1,19 @@
+{% extends "main.html" %}
+
+{% block title %}Last users{% endblock %}
+
+{% block content %}
+	<h1>Last users</h1>
+	<dl>
+		{% for user in last_users %}
+			<dt>
+				{{ user.login }} (<a href="/user/{{ user.login }}">profile</a>)
+				{% if user.city %}
+					[{{ user.country }}, {{ user.city }}]
+				{% endif %}
+			</dt>
+			<dd>Registered: <i>{{ ago(user.datetime_registration) }}</i></dd>
+			
+		{% endfor %}
+	</dl>
+{% endblock %}

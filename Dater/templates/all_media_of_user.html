@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{% block title %}Media of {{ current_user.login }}{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block content %}
+	<h1>Media of {{ current_user.login }}</h1>
+
+	{% if medias %}
+		<ul class="thumbnails">
+			{% for media in medias %}
+				<li class="span4">
+					<a href="{{ url_for('.media', user_login='%s'|format(media.user), media_sid='%s'|format(media.sid)) }}" class="thumbnail">
+					  <img src="{{ url_for('.media_path', first_dir='%s'|format(media.first_dir), second_dir='%s'|format(media.second_dir), filename='%s'|format(media.file_name)) }}" alt="">
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<h5>{{ current_user.first_name }} hasn't photos!</h5>
+	{% endif %}
+{% endblock %}

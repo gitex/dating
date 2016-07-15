@@ -1,0 +1,370 @@
+{% extends "main.html" %}
+
+{% block title %}Edit profile{% endblock %}
+
+{% block head %}
+	<script>
+		function initAutocomplete() {
+		  	autocomplete = new google.maps.places.Autocomplete(
+				(document.getElementById('place')),
+				{types: ['geocode']}
+		  	);
+		}
+
+
+    </script>
+	<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete" async defer></script>
+{% endblock %}
+
+{% block content %}
+	<h1>Edit profile</h1>
+
+	<span>Inscrit depuis : <b>le {{ current_user.datetime_registration.strftime('%d/%m/%Y') }} à {{ current_user.datetime_registration.strftime('%Hh%M') }}</b></span>
+
+	<form action="{{ url_for('.edit_profile') }}" method="POST" enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+
+		<!-- Errors -->
+		{% if form.errors %}
+			<h3>Errors:</h3>
+		    <ul class="errors">
+		        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+			        {% if field_name != 'csrf_token' %}
+			            {% for error in field_errors %}
+				            <li>{{ form[field_name].label }}: {{ error }}</li>
+				        {% endfor %}
+				    {% endif %}
+				{% endfor %}
+
+		    </ul>
+		{% else %}
+			<h3>No errors</h3>
+		{% endif %}
+
+
+		<!-- Form -->
+		<div class="control-group">
+			<label class="control-label" for="{{ form.place.name }}">
+				{{ form.place.label }}
+			</label>
+			<div class="controls">
+			  {{ form.place }}
+			  {% if current_user.city %}
+			  	<span class="help-inline">Current address: <b>{{ current_user.country }}, {{ current_user.city }}</b></span>
+			  {% endif %}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.first_name.name }}">
+				{{ form.first_name.label }}
+			</label>
+			<div class="controls">
+			  {{ form.first_name }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.last_name.name }}">
+				{{ form.last_name.label }}
+			</label>
+			<div class="controls">
+			  {{ form.last_name }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.gender.name }}">
+				{{ form.gender.label }}
+			</label>
+			{{ form.gender }}
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="{{ form.birthday.name }}">
+				{{ form.birthday.label }}
+			</label>
+			<div class="controls">
+			  {{ form.birthday }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.marital_status.name }}">
+				{{ form.marital_status.label }}
+			</label>
+			<div class="controls">
+			  {{ form.marital_status }}
+			</div>
+		</div>
+
+
+		
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.goals.name }}">
+				{{ form.goals.label }}
+			</label>
+			<div class="controls">
+				{% for goal in form.goals %}
+					<label class="checkbox">
+						{% if goal.value in current_user.goals %}
+							  {{ goal(checked="checked") }} {{ goal.label.text }}
+						{% else %}
+							{{ goal }} {{ goal.label.text }}
+						{% endif %}
+					</label>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.growth.name }}">
+				{{ form.growth.label }}
+			</label>
+			<div class="controls">
+			  {{ form.growth }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.weight.name }}">
+				{{ form.weight.label }}
+			</label>
+			<div class="controls">
+			  {{ form.weight }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.body.name }}">
+				{{ form.body.label }}
+			</label>
+			<div class="controls">
+			  {{ form.body }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.smoking.name }}">
+				{{ form.smoking.label }}
+			</label>
+			<div class="controls">
+			  {{ form.smoking }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.food.name }}">
+				{{ form.food.label }}
+			</label>
+			<div class="controls">
+			  {{ form.food }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.origin.name }}">
+				{{ form.origin.label }}
+			</label>
+			<div class="controls">
+			  {{ form.origin }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.hairs.name }}">
+				{{ form.hairs.label }}
+			</label>
+			<div class="controls">
+			  {{ form.hairs }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.eyes.name }}">
+				{{ form.eyes.label }}
+			</label>
+			<div class="controls">
+			  {{ form.eyes }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.drink.name }}">
+				{{ form.drink.label }}
+			</label>
+			<div class="controls">
+			  {{ form.drink }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.films.name }}">
+				{{ form.films.label }}
+			</label>
+			<div class="controls">
+				{% for point in form.films %}
+					<label class="checkbox">
+						{% if point.value in current_user.films %}
+							  {{ point(checked="checked") }} {{ point.label.text }}
+						{% else %}
+							{{ point }} {{ point.label.text }}
+						{% endif %}
+					</label>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.animals.name }}">
+				{{ form.animals.label }}
+			</label>
+			<div class="controls">
+				{% for point in form.animals %}
+					<label class="checkbox">
+						{% if point.value in current_user.animals %}
+							  {{ point(checked="checked") }} {{ point.label.text }}
+						{% else %}
+							{{ point }} {{ point.label.text }}
+						{% endif %}
+					</label>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.personality.name }}">
+				{{ form.personality.label }}
+			</label>
+			<div class="controls">
+				{% for point in form.personality %}
+					<label class="checkbox">
+						{% if point.value in current_user.personality %}
+							  {{ point(checked="checked") }} {{ point.label.text }}
+						{% else %}
+							{{ point }} {{ point.label.text }}
+						{% endif %}
+					</label>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.music.name }}">
+				{{ form.music.label }}
+			</label>
+			<div class="controls">
+				{% for point in form.music %}
+					<label class="checkbox">
+						{% if point.value in current_user.music %}
+							  {{ point(checked="checked") }} {{ point.label.text }}
+						{% else %}
+							{{ point }} {{ point.label.text }}
+						{% endif %}
+					</label>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.languages.name }}">
+				{{ form.languages.label }}
+			</label>
+			<div class="controls">
+				{% for point in form.languages %}
+					<label class="checkbox">
+						{% if point.value in current_user.languages %}
+							  {{ point(checked="checked") }} {{ point.label.text }}
+						{% else %}
+							{{ point }} {{ point.label.text }}
+						{% endif %}
+					</label>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.feature.name }}">
+				{{ form.feature.label }}
+			</label>
+			<div class="controls">
+				{% for point in form.feature %}
+					<label class="checkbox">
+						{% if point.value in current_user.feature %}
+							  {{ point(checked="checked") }} {{ point.label.text }}
+						{% else %}
+							{{ point }} {{ point.label.text }}
+						{% endif %}
+					</label>
+				{% endfor %}
+			</div>
+		</div>
+
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.search_gender.name }}">
+				{{ form.search_gender.label }}
+			</label>
+			<div class="controls">
+			  {{ form.search_gender }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.search_age_min.name }}">
+				{{ form.search_age_min.label }}
+			</label>
+			<div class="controls">
+			  {{ form.search_age_min }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.search_age_max.name }}">
+				{{ form.search_age_max.label }}
+			</label>
+			<div class="controls">
+			  {{ form.search_age_max }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.search_country.name }}">
+				{{ form.search_country.label }}
+			</label>
+			<div class="controls">
+			  {{ form.search_country }}
+			</div>
+		</div>
+
+
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.presentation.name }}">
+				{{ form.presentation.label }}
+			</label>
+			<div class="controls">
+			  {{ form.presentation(placeholder="Ici vous pouvez vous présenter aux personnes qui viendront regarder votre profil. Cliquez sur Modifier puis parlez-nous de vous :)") }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.presentation_research.name }}">
+				{{ form.presentation_research.label }}
+			</label>
+			<div class="controls">
+			  {{ form.presentation_research(placeholder="Ici vous pouvez expliquer ce que vous recherchez sur le site. Cliquez sur Modifier et c’est à vous :)") }}
+			</div>
+		</div>
+
+		<button type="submit" class="btn btn-success">Save</button>
+	</form>
+
+    <script>
+        $("#birthday").datepicker({
+          yearRange: "1900:2000"
+        });
+    </script>
+{% endblock %}
+

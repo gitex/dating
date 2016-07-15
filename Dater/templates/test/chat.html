@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Demo of Responsive Pinterest-style Layout With CSS">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1">
+    <link rel="icon" href="http://osvaldas.info/examples/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" media="screen" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+
+    <script language="javascript" type="text/javascript">
+		var socket = io.connect('http://127.0.0.1:5000/socket');
+		
+	    socket.on('publicate_message', function(message) {
+	        $('#messages').append('<li class="sent"><div class="avatar"><a href=""><img src="{{ url_for("static", filename="images/avatar.png") }}" alt=""><i class="fa fa-circle user-status"></i></a></div><span><b>Flaviu</b><p>' + message.data.msg + '</p><i>' + message.data.sending_time + '</i></span></li>');
+		});
+
+		function send_socket() {
+			var message = document.getElementById('message');
+			socket.emit('my event', {data: {
+				'msg': message.value
+			});
+			$('#message').val('');
+		}
+		
+		$(document).keydown(function(event){
+		    if (event.which == 13 && event.ctrlKey) {
+		       send_socket();
+		    };
+		});
+    </script>
+
+</head>
+
+<body>
+	<header>
+		<ul id="menu">
+			<li><a href="index.html"><i class="fa fa-home"></i><br /> Accueil</a></li>
+			<li><a href="profile.html"><i class="fa fa-user"></i><br /> Mon profil</a></li>
+			<li><a href="noter.html"><i class="fa fa-trophy"></i><br /> Noter</a></li>
+			<li><a href="index.html"><i class="fa fa-search"></i><br /> Recherche</a></li>
+			<li><a href="chat.html"><i class="fa fa-comments"></i><br /> Chat</a></li>
+			<li><a href="#"><i class="fa fa-sign-out"></i><br /> Deconnexion</a></li>
+		</ul>
+
+	</header>	
+
+	<div class="chat iContainer">
+		<div class="users-list">
+			<ul>
+				<li>Inbox <span>5</span></li>
+				<li class="active">
+					<a href="">
+						<img src="{{ url_for('static', filename='images/1.jpg') }}" alt="">
+						<i class="fa fa-circle user-status online"></i>
+						<span>
+							<b>Ivonne Cochonne <span>2</span></b><br />
+							<p><i class="fa fa-map-marker"></i> 3.69km, Lorient</p>
+						</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="">
+						<img src="{{ url_for('static', filename='images/9.jpg') }}" alt="">
+						<i class="fa fa-circle user-status"></i>
+						<span>
+							<b>Carcarolina <span>2</span></b><br />
+							<p><i class="fa fa-map-marker"></i> 3.69km, Lorient</p>
+						</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="">
+						<img src="{{ url_for('static', filename='images/3.jpg') }}" alt="">
+						<i class="fa fa-circle user-status"></i>
+						<span>
+							<b>Katherrinne</b><br />
+							<p><i class="fa fa-map-marker"></i> 3.69km, Lorient</p>
+						</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="">
+						<img src="{{ url_for('static', filename='images/8.jpg') }}" alt="">
+						<i class="fa fa-circle user-status"></i>
+						<span>
+							<b>Sandiey</b><br />
+							<p><i class="fa fa-map-marker"></i> 3.69km, Lorient</p>
+						</span>
+					</a>
+				</li>												
+			</ul>
+		</div>
+
+		<div class="chat-box">
+			<div class="box-content" style="width:100%;">
+				<h1>Ivonne Cochonne</h1>
+			</div>
+
+			<dib class="box-content">
+				<ul class="messages" id="messages">
+					<li>
+						<div class="avatar">
+							<a href="">
+								<img src="{{ url_for('static', filename='images/1.jpg') }}" alt="">
+								<i class="fa fa-circle user-status"></i>
+							</a>
+						</div>
+						<span>
+							<b>Ivonne Cochonne</b>
+							<p>Nam id leo lacus. Vivamus mauris odio, imperdiet eu magna vel, imperdiet venenatis turpis. Nullam imperdiet quis ex sed faucibus.</p>
+							<i>3:13:43 PM</i>
+						</span>
+					</li>
+
+					<li class="sent">
+						<div class="avatar">
+							<a href="">
+								<img src="{{ url_for('static', filename='images/avatar.png') }}" alt="">
+								<i class="fa fa-circle user-status"></i>
+							</a>
+						</div>
+						<span>
+							<b>Flaviu</b>
+							<p>Aliquam enim ex, convallis quis iaculis in, faucibus vitae leo. Duis at nisi et justo efficitur lacinia porta sit amet urna. Suspendisse potenti.</p>
+							<i>3:13:43 PM</i>
+						</span>
+					</li>
+
+														
+				</ul>
+
+				<div class="user-input">
+					<form id="send_message">
+						<textarea placeholder="Write a message" id="message"></textarea>
+						<a href='#' onclick="send_socket();" id="send"><i class="fa fa-paper-plane"></i></a>
+						<a href="#"><i class="fa fa-smile-o"></i></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

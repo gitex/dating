@@ -1,0 +1,12 @@
+{% extends "main.html" %}
+
+{% block title %}My followings{% endblock %}
+
+{% block content %}
+	<h1>I'm following</h1>
+	<dl class="dl-horizontal pull-left">
+		{% for user_login in current_user.following %}
+			<dt>{{ user_login }}</dt><dd><a href="/user/{{ user_login }}">profile</a></dd>
+		{% endfor %}
+	</dl>
+{% endblock %}

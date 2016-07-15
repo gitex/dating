@@ -1,0 +1,195 @@
+Structure MongoDB
+
+Profiles:
+
+[{
+	"login": "USER_LOGIN",
+	"location": "TO_LOCATIONS_BASE",
+	// "search": {
+	// 	"gender": "U",
+	// 	"age": {
+	// 		"from": 18,
+	// 		"to": 20
+	// 	},
+	// 	"location": "TO_LOCATIONS_BASE"
+	// },
+	"datetime_registration": "AUTO_SELECT",
+	"status": "AUTO_SELECT",
+	"birthdate": {
+		"day": ["{1-31}"],
+		"month": ["{1-12}"],
+		"year": ["{1916-/CURRENT_YEAR - 18/}"]
+		},
+	"family_status": ["in_couple", "married", "separated", "single"],
+	"gender": "male",
+	"phone": {
+		"code": ["+XX", "+32", "+1", "+33", "+594", "+590", "+352", "+377", "+41", "+44"],
+		"number": "7537272738"
+		},
+	"growth": ["{100-210}"],
+	"race": ["asiat", "black", "european", "latin", "slav", "american", "maghreb", "oriental", "mixed"],
+	"weight": ["{40-210}"],
+	"hair": ["blonde", "black", "redhead", "brown", "salt_and_pepper"],
+	"body": ["slim", "normal", "sporty", "chubby", "fat"],
+	"eyes": ["brown", "blue", "black", "gray", "green"],
+	"smoking": ["smoke_no_and_dont_like", "smoke_no_and_like", "smoke_occasionally", "smoke_often"],
+	"alcohol": ["drink_never", "drink_occasionally", "drink_regularly", "drink_problem"],
+	"search_target": ["meets", "waitAndSee", "discussion", "love", "friendship"],
+	"food": ["eat_all", "eat_bio", "eat_vegetable", "eat_picky"],
+
+	"films": [
+		"action", "adventure", "thriller", "porn", "comedy", "drama", "horror", "fantasy",
+		"emotional", "westerns", "war", "foreign", "original_version"
+		],
+	"animal": ["dog", "cat", "bird", "reptile", "insect", "rodent", "everything", "other"],
+	"personnality": [
+		"cool", "cynic", "dynamic", "excited", "extraverted", "generous_m", "idealist", "intellectual", "introverted", "born_leader", "mothering", "mystic", "passionate_m", "grumpy", 
+		"dreamer_m", "stable", "mundane", "romantic", "sensitive", "optimistic", "peaceful", "practical", "melancholy"],
+	"music": ["rock", "blues", "jazz", "popular", "club", "techno", "rnb", "rap", "hard_rock", "classical", "classical_french", "new_french", "world_music", "lounge"],
+	"languages": ["fr", "en", "es", "de", "pt", "ar", "other"],
+	"feature": ["glasses", "tattoo", "piercing", "freckle", "suntan", "nothing"],
+
+	"highlight": "TEXT",
+	"highlight_search": "TEXT",
+
+	"avatar": "IMAGE_LINK",
+
+	"visit": ["ID_USERS"],
+	"messages": {
+		"ID_USER": {
+			"not_read" : ["MESSAGES"],
+			"read": ["MESSAGES"]
+			}},
+	"favorite": ["ID_USERS"],
+	"photos": ["IMAGE_LINKS"],
+	"likes": ["ID_USERS"]
+
+
+}]
+
+Location
+
+{
+	"France": {
+		"75001": "Paris - 01 Louvre",
+		"75002": "Paris - 02 bla-bla..."
+	}
+}
+
+
+
+{
+        // "age": 31, 
+        // "alert_new_mail": "1", 
+        // "alert_new_profil": "1", 
+        "alert_special_offer": "1", 
+        "avatar": {
+            "large": "http://static.tonplanq.com/shared/pics/00/00/04/54/99/480x480/41942.jpg", 
+            "medium": "http://static.tonplanq.com/shared/pics/00/00/04/54/99/240x240/41942.jpg", 
+            "original": "http://static.tonplanq.com/shared/pics/00/00/04/54/99/41942.jpg", 
+            "small": "http://static.tonplanq.com/shared/pics/00/00/04/54/99/150x150/41942.jpg", 
+            "x_small": "http://static.tonplanq.com/shared/pics/00/00/04/54/99/100x100/41942.jpg"
+        }, 
+        "bought_credit": "0", 
+        "channel": "574e8de6df1fe0cba874a212ac6e0a04", 
+        "chat_link": "http://www.tonplanq.com/fr/chat#45499", 
+        // "city": "Ferney-Voltaire", 
+        "class": "blink", 
+        // "country": "FR", 
+        "date_inscription": "2013-01-15 13:41:10", 
+        "date_last_buy_credit": null, 
+        "date_last_connection": "2013-05-05 18:57:16", 
+        "date_last_deconnection": "2013-05-05 16:57:49", 
+        "date_last_modification": null, 
+        "date_last_visit": "2014-08-01 00:00:00", 
+        "date_next_deconnection": null, 
+        "date_of_birth": "1984-02-22", 
+        "department": "Ain", 
+        "disabled_account": "0", 
+        "disabled_date": null, 
+        "display_lang": "fr", 
+        // "drink": "DRINK_OCCASIONALLY", 
+        // "email": "", 
+        "expiry_date_credit": null, 
+        // "eye": "BROWN", 
+        // "fake": "1", 
+        // "food": "EAT_ALL", 
+        // "gay": "0", 
+        "ghosted": "0", 
+        "had_webcam": "1", 
+        // "hair": "BROWN", 
+        // "has_photo": "1", 
+        // "has_video": "0", 
+        "height": "168", 
+        "id_link": "dG9ucGxhbnF8NDU0OTk=", 
+        "id_mobile_code": null, 
+        "id_scenario": null, 
+        "id_scenario_type": null, 
+        "id_site_inscription": null, 
+        // "id_user": "45499", 
+        "ip_inscription": "3561283497", 
+        "ip_last_connection": "0", 
+        "isFavorite": "0", 
+        "isIgnored": "0", 
+        "isLiked": "0", 
+        "isSessionUserIgnored": "0", 
+        "listBlackByContact": [
+            45499
+        ], 
+        "listBlackContact": [], 
+        "mobile": null, 
+        "moderation_status": "VALID", 
+        "name": null, 
+        "nb_connection_without_cam": "0", 
+        "nb_credit": "0", 
+        "nb_point": "1611", 
+        "new_presentation": null, 
+        "new_presentation_research": null, 
+        "newsletter_inscription": "0", 
+        // "online": "0", 
+        // "origin": "EUROPEAN", 
+        "percentage": "0", 
+        // "presentation": "Je suis une jeune femme divorc\u00e9e avec un petit gar\u00e7on en charge.", 
+        // "presentation_research": "La description est un bon point de d\u00e9part, alors j'attends quelques d\u00e9tails sur votre personnalit\u00e9.", 
+        "problemUrl": "http://www.tonplanq.com/fr/problem/report/LilyLou/45499", 
+        "pseudo": "LilyLou", 
+        // "quicksearch_age_max": "34", 
+        // "quicksearch_age_min": "24", 
+        // "quicksearch_country": "FR", 
+        // "quicksearch_department": "Ain", 
+        // "quicksearch_online": "1", 
+        // "quicksearch_photo": "0", 
+        "reactivation_date": null, 
+        "region": "Rh\u00f4ne-Alpes", 
+        "relation": "SEPARATED", 
+        "segment": "SOFT", 
+        // "sex": "F", 
+        "silhouette": "NORMAL", 
+        // "smoke": "SMOKE_NO_AND_LIKE", 
+        "state_profile": "0", 
+        "unlimited_credit": "0", 
+        "user_can_chat_with": "0", 
+        "user_link": "http://www.tonplanq.com/fr/users/view/dG9ucGxhbnF8NDU0OTk=", 
+        "validation_status": "ACTIVE", 
+        "webcam": "1", 
+        "webcam_anim": "1", 
+        "webcam_permission": "1", 
+        // "weight": "63", 
+        // "zipcode": "01210"
+    }
+
+
+
+
+{"id_user":"1","email":"","pseudo":"admin","name":null,"passwd":"BFGbme6mLQipG2iFIoUYwVEYiPraRi0u","sex":"M","gay":"0","date_of_birth":null,"display_lang":"fr","id_mobile_code":null,"mobile":null,"country":"FR",
+"region":"","department":"","zipcode":"","city":"","fake":"0","ip_inscription":"0","id_site_inscription":"1","segment":"SEXY","date_inscription":"2012-12-12 12:12:12","ip_last_connection":"0",
+"date_last_connection":"0000-00-00 00:00:00","date_last_deconnection":"0000-00-00 00:00:00","date_last_modification":null,"date_last_visit":"2014-08-01 00:00:00","disabled_account":"0","disabled_date":null,
+"reactivation_date":null,"ghosted":"0","online":"0","presentation":null,"new_presentation":null,"presentation_research":null,"new_presentation_research":null,"origin":null,"relation":null,"height":null,"weight":null,
+"silhouette":null,"hair":null,"eye":null,"food":null,"drink":null,"smoke":null,"quicksearch_age_min":"0","quicksearch_age_max":null,"quicksearch_country":"","quicksearch_department":"1","quicksearch_online":"1",
+"quicksearch_photo":"0","had_webcam":"0","webcam_anim":"0","has_photo":"0","has_video":"0","nb_connection_without_cam":"0","alert_new_profil":"1","alert_new_mail":"1","alert_special_offer":"1","webcam_permission":"0",
+"bought_credit":"0","nb_credit":"0","unlimited_credit":"0","date_last_buy_credit":null,"expiry_date_credit":null,"nb_point":"0","newsletter_inscription":"1","validation_status":"ACTIVE","moderation_status":"VALID",
+"date_next_deconnection":null,"id_scenario_type":null,"state_profile":"0","id_scenario":null,"percentage":"0","avatar":{"x_small":"http:\/\/static.tonplanq.com\/img_default\/avatar\/avatar_M.png",
+"small":"http:\/\/static.tonplanq.com\/img_default\/avatar\/avatar_M.png","medium":"http:\/\/static.tonplanq.com\/img_default\/avatar\/avatar_M.png","large":"http:\/\/static.tonplanq.com\/img_default\/avatar\/avatar_M.png",
+"original":"http:\/\/static.tonplanq.com\/img_default\/avatar\/avatar_M.png"},"age":25,"id_link":"dG9ucGxhbnF8MQ==","isFavorite":"0","isIgnored":"0","isSessionUserIgnored":"0","isLiked":"0",
+"channel":"5b82c1228420e2e185ab46a2d012178b","webcam":"0","user_link":"http:\/\/www.tonplanq.com\/fr\/users\/view\/dG9ucGxhbnF8MQ==","chat_link":"http:\/\/www.tonplanq.com\/fr\/chat#1","listBlackContact":[],
+"listBlackByContact":[1],"user_can_chat_with":"0","class":"blink","problemUrl":"http:\/\/www.tonplanq.com\/fr\/problem\/report\/admin\/1"}

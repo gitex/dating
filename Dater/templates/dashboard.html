@@ -1,0 +1,97 @@
+{% extends "main.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block head %}
+	<script type="text/javascript">
+        function get_user() {
+        	$.ajax({
+                type: 'POST',
+                url: "{{ url_for('.get_data') }}",
+                header: {'Referer': location.href},
+                data: JSON.stringify({
+                    'event':'random_user'}, null, '\t'),
+                contentType: 'application/json;charset=UTF-8',
+                success: function(data){
+                    if (data.result == 'OK') {
+                        user_login = data.user.login;
+                        document.getElementById("age").innerHTML = data.user.age || "Empty";
+                        document.getElementById("sid").innerHTML = data.user.sid || "Empty";
+                        document.getElementById("login").innerHTML = data.user.login || "Empty";
+                        document.getElementById("user_link").href = "/user/" + data.user.login;
+                        document.getElementById("user_link").innerHTML = "/user/" + data.user.login;
+                        document.getElementById("description").innerHTML = data.user.description || "Empty";
+
+
+                    }
+                }
+            });
+		}
+
+        function changeFollow() {
+			$.ajax({
+                type: 'post',
+                url: "{{ url_for('.change_follow', user_login='') }}" + user_login,
+                header: {'Referer': location.href},
+                contentType: 'application/json;charset=UTF-8',
+                success: function (data) {
+                    if (data.follow == true) {
+                        document.getElementById("follow").value = 'I following';
+                    } else if (data.follow == false) {
+                        document.getElementById("follow").value = 'Follow';
+                    }
+                }
+            });
+		}
+
+        function likeButton() {
+            $.ajax({
+                type: 'POST',
+                url: "{{ url_for('.like_user', user_login='') }}" + user_login,
+                header: {'Referer': location.href},
+                contentType: 'application/json;charset=UTF-8',
+                success: function(data){
+                    console.log(data.result)
+                }
+            });
+            get_user();
+        }
+
+        function notLikeButton() {}
+    </script>
+{% endblock %}
+
+{% block content %}
+	<h1>Like or not</h1>
+
+	<div class="row-fluid center-block">
+		<div class="span3">
+			<img src="" class="img-rounded" id="user_photo">
+		</div>
+		<div class="span6">
+			<dl class="dl-horizontal pull-left">
+				<dt>Login</dt><dd id="login"></dd>
+				<dt>Sid</dt><dd id="sid"></dd>
+				<dt>Age</dt><dd id="age"></dd>
+				<dt>Description</dt><dd id="description"></dd>
+				<dt>Profile link</dt><dd><a href="" id="user_link"></a></dd>
+				<dt>Follow</dt><dd><input type="button" class="btn btn-info btn-mini" id="follow" onclick='changeFollow()' value="Start to follow"></dd>
+			</dl>
+		</div>
+	</div>
+
+	<div class="row" style="margin: 30px 10px 10px 10px;" >
+		<div class="span3">
+			<button class="btn btn-success span3" type="button" id="follow" onclick="likeButton()">Like</button>
+		</div>
+		<div class="span3">
+			<button class="btn btn-primary span3" type="button" onclick="get_user()">Next ></button>
+		</div>
+		<div class="span3">
+			<button class="btn btn-danger span3" type="button" onclick="notLikeButton()">Don't show user</button>
+		</div>
+	</div>
+    <script>
+        location.onload = get_user();
+    </script>
+{% endblock %}

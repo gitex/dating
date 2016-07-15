@@ -1,0 +1,16 @@
+<!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload photo</h1>
+
+    <table>
+    <form action="/load" method="post enctype=multipart/form-data" method="POST">
+    {{ form.csrf_token }}
+    	<tr>
+    		<td>{{ form.file }}</td>
+    	</tr>
+    	<tr>
+    		<td>{{ form.description(placeholder="Description") }}</td>
+    	</tr>
+    	<tr><td><button type="submit" class="sbmt">Load Image</button></td></tr>
+    </form>
+    </table>

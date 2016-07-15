@@ -1,0 +1,54 @@
+{% extends "main.html" %}
+
+{% block title %}Main Search{% endblock %}
+
+{% block head %}
+	<script>
+		function initAutocomplete() {
+		  	autocomplete = new google.maps.places.Autocomplete(
+				(document.getElementById('place')),
+				{types: ['geocode']}
+		  	);
+		}
+    </script>
+	<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete" async defer></script>
+{% endblock %}
+
+{% block content %}
+	<h1>Main Search</h1>
+
+	<form action="{{ url_for('.search') }}" method="POST" enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+		<div class="control-group">
+			<label class="control-label" for="{{ form.man.name }}">Gender</label>
+			<label class="checkbox inline">
+				{{ form.man }} {{ form.man.label }}
+			</label>
+
+			<label class="checkbox inline">
+				{{ form.woman }} {{ form.woman.label }}
+			</label>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.min_age.name }}">Age</label>
+			{{ form.min_age(class="input-mini") }} - 
+			{{ form.max_age(class="input-mini") }}
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.photo.name }}">Has photo</label>
+			<label class="checkbox inline">
+				{{ form.photo }} {{ form.photo.label }}
+			</label>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.place.name }}">Location</label>
+				{{ form.place }} {{ form.area(class="input-mini") }}
+		</div>
+		
+		<button type="submit" class="btn btn-primary">Search</button>
+	</form>
+
+{% endblock %}

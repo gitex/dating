@@ -1,0 +1,65 @@
+{% extends "main.html" %}
+
+{% block title %}{{ _('My profile') }}{% endblock %}
+
+{% block head %}
+	{% if google_map %}
+		{{ google_map.js }}
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	<h1>My profile</h1>
+
+	<div class="row-fluid">
+	  <div class="span4">
+	  	
+	  	<dl class="dl-horizontal pull-left">
+			<dt>Name</dt><dd>{{ current_user.first_name}} {{ current_user.last_name }}</dd>
+			<dt>Sid</dt><dd>{{ current_user.sid or None }}</dd>
+			<dt>Login</dt><dd>{{ current_user.login or None }}</dd>
+			<dt>Email</dt><dd>{{ current_user.email or None }}</dd>
+			<dt>Gender</dt><dd>{{ current_user.gender or None }}</dd>
+			<dt>Birthday</dt><dd>{{ current_user.birthday or None }}</dd>
+			<dt>Goals</dt><dd>{{ current_user.goals|join(', ') or None }}</dd>
+			<dt>Discription</dt><dd>{{ current_user.description or None }}</dd>
+			<dt>Phone</dt><dd>{{ current_user.phone_code or None }} {{ current_user.phone_number }}</dd>
+			<dt>Growth</dt><dd>{{ current_user.growth or None }}</dd>
+			<dt>Waist</dt><dd>{{ current_user.waist or None }}</dd>
+			<dt>Weight</dt><dd>{{ current_user.weight or None }}</dd>
+			<dt>Body</dt><dd>{{ current_user.body or None }}</dd>
+			<dt>Food</dt><dd>{{ current_user.food or None }}</dd>
+			<dt>Eyes</dt><dd>{{ current_user.eyes or None }}</dd>
+			<dt>Origin</dt><dd>{{ current_user.origin or None }}</dd>
+			<dt>Drink</dt><dd>{{ current_user.drink or None }}</dd>
+			<dt>Films</dt><dd>{{ current_user.films|join(', ') or None }}</dd>
+			<dt>Animals</dt><dd>{{ current_user.animals|join(', ') or None }}</dd>
+			<dt>Personality</dt><dd>{{ current_user.personality|join(', ') or None }}</dd>
+			<dt>Music</dt><dd>{{ current_user.music|join(', ') or None }}</dd>
+			<dt>Languages</dt><dd>{{ current_user.languages|join(', ') or None }}</dd>
+			<dt>Feature</dt><dd>{{ current_user.feature|join(', ') or None }}</dd>
+			<dt>Presentation</dt><dd>{{ current_user.presentation or None }}</dd>
+			<dt>Presentation Research</dt><dd>{{ current_user.presentation_research or None }}</dd>
+			<!-- <dt></dt><dd>{{ current_user }}</dd> -->
+			<dt>City</dt><dd>{{ current_user.city or None }}</dd>
+			<dt>Country</dt><dd>{{ current_user.country or None }}</dd>
+			<dt>Coordinates</dt><dd>{{ current_user.coordinates or None }}</dd>
+			<dt>Timezone</dt><dd>{{ session['timezone'] or None }}</dd>
+			
+		</dl>
+	  </div>
+	  	<div class="span4 pull-right">
+	  		{% if current_user.avatar %}
+	  			<img src="{{ url_for('.media_path', first_dir='%s'|format(current_user.avatar.first_dir), second_dir='%s'|format(current_user.avatar.second_dir), filename='%s'|format(current_user.avatar.file_name)) }}" class="img-rounded">
+	  		{% else %}
+	  			<img src="{{ url_for('static', filename='images/avatar.png') }}" class="img-rounded">
+	  		{% endif %}
+	  		<div style="margin: 30px 10px 10px 10px;">
+	  			{% if google_map %}
+	  				{{ google_map.html }}
+	  			{% endif %}
+	  		</div>
+		</div>
+	</div>
+		
+{% endblock %}

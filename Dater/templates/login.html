@@ -1,0 +1,20 @@
+{% extends "main.html" %}
+
+{% block title %}My profile{% endblock %}
+
+{% block content %}	
+	<div class="container">
+
+      <form class="form-signin" action="{{ url_for('security.login') }}" method="POST">
+      	{{ form.csrf_token }}
+        <h2 class="form-signin-heading">Please sign in</h2>
+        {{ form.email(placeholder="Email", class="full-input") }}
+        {{ form.password(placeholder="Password", class="full-input") }}
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+      </form>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "main.html" %}
+
+{%  block head %}
+    	<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" media="screen">
+    	<link href="{{ url_for('static', filename='css_chat.css') }}" rel="stylesheet" media="screen">
+    	<script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+
+    	<!-- JScripts -->
+		<script>
+			var sender = {{ current_user.sid|int }};
+			var tornado_port = {{ tornado_port }};
+		</script>
+    	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    	// <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    	<script src="//cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+    	<script src="{{ url_for('static', filename='js/chat_websockets.js') }}"></script>
+    	
+
+
+        <script>
+            $("#message").blur(
+                function (){
+                    if ($(this).val() == "")
+                        $(this).val($(this).prop("defaultValue"));
+                    }
+            ).focus(
+                function (){
+                    if ($(this).val() == $(this).prop("defaultValue"))
+                        $(this).val("");
+                }
+            );
+            </script>
+
+	<script type="text/javascript">
+	var parameters_url = location.search.replace('?','').split('&').reduce(function(s,c){var t=c.split('=');s[t[0]]=t[1];return s;},{});
+	var thread_id = [sender, Number(parameters_url.sid)].sort(function(a,b){return a-b;}).join("_");
+	console.log({"Thread ID": thread_id});
+
+	</script>
+
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid pull-right" style="margin: 30px 10px 10px 10px;">
+        <div class="span3">
+            <ul class="nav nav-list span3">
+                <li class="nav-header">Messages</li>
+                {% for dialogue in dialogues %}
+                    <li><a href="{{ url_for('.chat') }}?sid={{ dialogue['sid'] }}">{{ dialogue['login'].title() }}</a></li>
+                {%  endfor %}
+
+                <li class="nav-header">Favorite list</li>
+                {% for user in favorite_list %}
+                    <li><a href="{{ url_for('.chat') }}?sid={{ user._id.sid }}">{{ user._id.login.title() }}</a></li>
+                {%  endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+		<div class="container">
+        <center><h3>Chat with user <b>{{ recipient   }}</b> <span id="thread_id"></span></h3></center>
+		    <div class="row">
+		        <div class="col-md-5">
+		            <div class="panel panel-primary">
+		                <div class="panel-body">
+		                    <ul class="chat">
+								{% for message in messages %}
+									<li class="clearfix">
+										<div class="chat-body clearfix">
+											<span class="time">
+												[{{ utc_to_localtime(message.datetime) }}]
+											</span>
+											<strong style="color:red" class="primary-font">
+                                                {{ message.sender }}
+                                                {% if current_user.login == message.sender %}
+                                                    <b>(You)</b>
+                                                {% endif %}
+                                            </strong>:
+											<span>
+												{{ message.body }}
+											</span>
+										</div>
+									</li>
+									<!--<li class="clearfix">-->
+										<!--<div class="chat-body clearfix">-->
+												<!--<span class="time">[05:08:28]</span> <strong style="color:red" >SnoUweR</strong>:-->
+											<!--<span>-->
+												<!--Ls-->
+											<!--</span>-->
+										<!--</div>-->
+									<!--</li>-->
+								{% endfor %}
+		                      
+		                    </ul>
+		                </div>
+		                <div class="panel-footer">
+		                    <div class="input-group" style="width: 100%; margin: 0 auto;">
+		                        <input id="message" type="text" class="form-control input-sm" placeholder="Type your message here..."/>
+		                        <span class="input-group-btn">
+		                            <button class="btn btn-warning btn-sm" id="btn-chat" onclick="sendNewMessage();">
+		                                Send</button>
+		                        </span>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+
+{%  endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+
+<script>
+    $(document).ready(function(){
+        $("#get_zip input[id='zipcode']").autocomplete({
+            minLength: 2,
+            maxHeight: 30,
+            delay: 300,
+            source: function(request, response) {
+                $.ajax({
+                    <!--Поменять домен в URL внизу (document.domain) -->
+                    url: "http://127.0.0.1:5000/json/getPlaces",
+                    dataType: "json",
+                    data:{
+                        country: document.getElementById('country').value,
+                        term: request.term
+                    },
+                    success: function(data){
+                        response($.map(data.suggestions, function(item) {
+                            return {
+                                label: item,
+                                value: item.split(" ")[0]
+                            }
+                        }));
+                    }
+                });
+            }
+        });
+    });
+
+
+</script>
+</head>
+<body>
+<form id="get_zip" class="get_zip" action="" method="POST" enctype="multipart/form-data">
+
+    <p>{{ form.country }}</p>
+    <p>{{ form.zipcode }}</p>
+    <button type="submit" class="sbmt">Get</button>
+
+</form>
+<div id="content"></div>
+<!--<script>-->
+    <!--function get_zips_country( country ){-->
+       <!--$.getJSON( "http://127.0.0.1:5000/json/getAllZip/" + country, function( json ) {-->
+            <!--$("#content").text( json.data );-->
+      <!--});-->
+    <!--}-->
+<!--</script>-->
+</body>
+</html>

@@ -1,0 +1,113 @@
+{% extends "main.html" %}
+
+{% block title %}{{ user.login }}{% endblock %}
+
+{% block head %}
+	<script>
+		function changeFollow() {
+
+            {#			 $.ajax({#}
+            {#			 	url: link,#}
+            {#			 	dataType: "json",#}
+            {#			 	success: function(data){#}
+            {#			 		if (data.follow == true) {#}
+            {#			 			document.getElementById("follow").value = 'I following';#}
+            {#			 		} else if (data.follow == false) {#}
+            {#			 			document.getElementById("follow").value = 'Follow';#}
+            {#			 		}#}
+            {#			 	}});#}
+            {#			}#}
+
+            $.ajax({
+                type: 'post',
+                url: "{{ url_for('.change_follow', user_login='%s'|format(user.login)) }}",
+                header: {'Referer': location.href},
+                contentType: 'application/json;charset=UTF-8',
+                success: function (data) {
+                    if (data.follow == true) {
+                        document.getElementById("follow").value = 'I following';
+                    } else if (data.follow == false) {
+                        document.getElementById("follow").value = 'Follow';
+                    }
+                }
+            });
+        }
+	</script>
+	{% if google_map %}
+		{{ google_map.js }}
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+	<h1>Profile of user {{ user.login.upper() }}</h1>
+
+	<div class="row-fluid">
+	  <div class="span4">
+	  	
+	  	<dl class="dl-horizontal pull-left">
+			<dt>Name</dt><dd>{{ user.first_name}} {{ user.last_name }}</dd>
+			<dt>Login</dt><dd>{{ user.login or None }}</dd>
+			<dt>Email</dt><dd>{{ user.email or None }}</dd>
+			<dt>Gender</dt><dd>{{ user.gender or None }}</dd>
+			<dt>Birthday</dt>
+			<dd>
+				{% if user.birthday %}
+					{{ user.birthday.strftime('%d/%m/%Y') }} ({{ user.age or None }} years)
+				{% else %}
+					None
+				{% endif %}
+			</dd>
+			<dt>Discription</dt><dd>{{ user.description or None }}</dd>
+			<dt>Phone</dt><dd>{{ user.phone_code or None }} {{ current_user.phone_number }}</dd>
+			<dt>Growth</dt><dd>{{ user.growth or None }}</dd>
+			<dt>Waist</dt><dd>{{ user.waist or None }}</dd>
+			<dt>Weight</dt><dd>{{ user.weight or None }}</dd>
+			<dt>Body</dt><dd>{{ user.body or None }}</dd>
+			<dt>Food</dt><dd>{{ user.food or None }}</dd>
+			<dt>Eyes</dt><dd>{{ user.eyes or None }}</dd>
+			<dt>Origin</dt><dd>{{ user.origin or None }}</dd>
+			<dt>Drink</dt><dd>{{ user.drink or None }}</dd>
+			<dt>Films</dt><dd>{{ user.films|join(', ') or None }}</dd>
+			<dt>Animals</dt><dd>{{ user.animals|join(', ') or None }}</dd>
+			<dt>Personality</dt><dd>{{ user.personality|join(', ') or None }}</dd>
+			<dt>Music</dt><dd>{{ user.music|join(', ') or None }}</dd>
+			<dt>Languages</dt><dd>{{ user.languages|join(', ') or None }}</dd>
+			<dt>Feature</dt><dd>{{ user.feature|join(', ') or None }}</dd>
+			<dt>Presentation</dt><dd>{{ user.presentation or None }}</dd>
+			<dt>Presentation Research</dt><dd>{{ user.presentation_research or None }}</dd>
+			<!-- <dt></dt><dd>{{ current_user }}</dd> -->
+			
+		</dl>
+		</div>
+		  	<div class="span4 pull-right">
+				{% if user.avatar %}
+	  				<img src="{{ url_for('.media_path', first_dir='%s'|format(current_user.avatar.first_dir), second_dir='%s'|format(current_user.avatar.second_dir),
+	  				filename='%s'|format(current_user.avatar.file_name)) }}" class="img-rounded">
+		  		{% else %}
+		  			<img src="{{ url_for('static', filename='images/avatar.png') }}" class="img-rounded">
+		  		{% endif %}
+
+
+				<div style="margin: 10px 10px 10px 10px;" >
+					<input type="button" class="btn btn-info span6" id="follow" onclick='changeFollow()' value=
+					{% if user.login in current_user.following %}
+						"I following!"
+					{% else %}
+						"Follow"
+					{% endif %}>
+				</div>
+
+				<div style="margin: 10px 10px 10px 10px;">
+					<a href="/chat?sid={{ user.sid }}" type="button" class="btn btn-info span6">Chat</a>
+				</div>
+
+				<div style="margin: 30px 10px 10px 10px;">
+					{% if google_map %}
+		  				{{ google_map.html }}
+		  			{% endif %}
+				</div>
+	  		</div>
+		</div>
+
+
+{% endblock %}

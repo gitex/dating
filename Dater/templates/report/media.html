@@ -1,0 +1,79 @@
+<div class="modal hide" id="myModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3 id="myModalLabel">Modal header</h3>
+	</div>
+
+	<div class="modal-body" id="reasons">
+		<label class="radio">
+		  <input type="radio" class="reasons" name="optionsRadios" id="optionsRadios1" value="not_user_on_photo" checked>
+		  There is not user on the photo
+		</label>
+		<label class="radio">
+		  <input type="radio" class="reasons" name="optionsRadios" id="optionsRadios2" value="internet_picture">
+		  User used picture from the internet
+		</label>
+		<label class="radio">
+		  <input type="radio" class="reasons" name="optionsRadios" id="optionsRadios3" value="other">
+		  Another:
+		  <p><textarea rows="3" id="other_text"></textarea>
+		</label>
+		
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		<button class="btn" onclick="getActiveRadio();">Test</button>
+		<button class="btn btn-primary" onclick="reportUser('media');">Sent</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function getActiveRadio() {
+		var radio = document.getElementsByClassName("reasons");
+
+		for(i=0; i < radio.length; i++){
+			if (radio[i].checked) {
+				if (i == radio.length - 1) {
+					return {reason: radio[i].value, 
+						last_element: true}
+
+				} else {
+					return {reason: radio[i].value, 
+						last_element: false}
+
+				}
+				break;
+			}
+		}
+	}
+
+	function reportUser(type_report) {
+		var active_reason = getActiveRadio();
+
+		if (active_reason.last_element == true) {
+			message_about_user = document.getElementById("other_text").value;
+		} else {
+			message_about_user = ''
+		}
+
+		$.ajax({
+			type:'post',
+		 	url: "{{ url_for('.report') }}",
+		 	header: {'Referer': location.href},
+		 	data: JSON.stringify({
+		 		'page': window.location.href ,
+		 		'type': type_report,
+		 		'text': message_about_user,
+		 		'reason': active_reason.reason,
+		 		'suspect': '{{ media.user }}',
+		 		'data_source': "{{ url_for('.media_path', first_dir='%s'|format(media.first_dir), second_dir='%s'|format(media.second_dir), filename='%s'|format(media.file_name)) }}"}, null, '\t'),
+		 	contentType: 'application/json;charset=UTF-8',
+		 	success: function(data){
+                if (data.result == true) {
+		 		    $('#myModal').modal('hide');
+		 		}
+		 	}
+		 });
+	}
+</script>

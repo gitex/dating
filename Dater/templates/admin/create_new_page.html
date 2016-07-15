@@ -1,0 +1,48 @@
+{% extends 'admin/master.html' %}
+
+{% block head %}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.0.1/ckeditor.js"></script>
+    
+{% endblock %}
+
+{% block body %}
+	<div class="row-fluid">
+		<div class="span7"><h2>Create new page</h2></div>
+		<div class="pull-right">
+			<button class="btn btn-info" type="button" ><i class="icon-align-justify"></i>  journal pages</button>
+		</div>
+	</div>
+
+	<form action="{{ url_for('.create_new_page') }}" method="POST" enctype="multipart/form-data">
+		<div class="container">
+			<div class="control-group">
+				{{ form.title.label(class="control-label")}}
+				<div class="controls">
+		        	{{ form.title(class="span6", placeholder="Title Page")}}
+		        </div>
+		    </div>
+
+		    <div class="control-group">
+		    	{{ form.file_name.label(class="control-label")}}
+		    	<div class="input-append">
+			  		{{ form.file_name(class="span6", placeholder="Page name in the template folder")}}
+			  		<span class="add-on">.html</span>
+				</div>
+		    </div>
+
+		    <div class="control-group">
+				{{ form.permalink.label(class="control-label")}}
+		        {{ form.permalink(class="span6", placeholder="http://site.domain/permalink")}}
+		    </div>
+
+		    <div class="control-group">
+				{{ form.content.label(class="control-label")}}
+		        {{ form.content(rows="20", class="span10")}}
+		    </div>
+		</div>
+		<button type="submit" class="btn btn-success"><i class="icon-ok"></i> Create Page</button>
+	</form>
+	<script type="text/javascript">
+		CKEDITOR.replace('content');
+	</script>
+{% endblock %}

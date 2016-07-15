@@ -1,0 +1,55 @@
+{% extends "main.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block head %}
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
+    <script>
+        console.log('{{ csrf_token() }}');
+    console.log('{{ session["csrf_token"] }}');
+    </script>
+{% endblock %}
+
+{% block content %}
+	<h1>Register</h1>
+
+	<form action="{{ url_for('.register') }}" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+			<div class="control-group">
+				{{ form.first_name(placeholder="First name", class="name-input f-left") }}
+			</div>
+
+			<div class="control-group">
+				{{ form.last_name(placeholder="Last name", class="name-input f-right") }}
+			</div>
+
+			<div class="control-group">
+				{{ form.login(placeholder="Username", class="full-input") }}
+			</div>
+
+			<div class="control-group">
+				{{ form.email(placeholder="Email", class="full-input") }}
+			</div>
+
+			<div class="control-group">
+				{{ form.password(placeholder="Password", class="full-input") }}
+			</div>
+
+			<div class="control-group">
+				{{ form.confirm(placeholder="Repeat password", class="full-input") }}
+				
+			</div>
+			<button type="submit" class="sbmt">Register</button>
+
+			{% for field in form %}
+				{% if field.errors %}
+		        	<ul>
+			            {% for error in field.errors %}
+			                <li>{{ field.errors }}</li>
+			            {% endfor %}
+		        	</ul>
+	    		{% endif %}
+	    	{% endfor %}
+		</form>
+
+{% endblock %}

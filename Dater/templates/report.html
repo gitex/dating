@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+
+{% block title %}{% endblock %}
+
+{% block head %}{% endblock %}
+
+{% block content %}
+	<h1>Report for user {{ user.login }} </h1>
+	<form action="" method="POST" enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+
+		<div class="control-group">
+			{% for subfield in form.problem %}
+				<label class="radio">
+				  {{ subfield }} {{ subfield.label }}
+				</label>
+			{% endfor %}
+		</div>
+
+		<div class="control-group">
+			{{ form.description(placeholder="Description of problem...") }}
+		</div>
+
+	<button type="submit" class="btn btn-info">Save</button>
+	</form>
+
+{% endblock %}

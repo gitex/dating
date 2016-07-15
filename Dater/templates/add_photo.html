@@ -1,0 +1,46 @@
+{% extends "main.html" %}
+
+{% block title %}Add photo{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block content %}
+	<h1>Add photo</h1>
+	<form action="{{ url_for('.load_file') }}" method="POST" enctype="multipart/form-data">
+		{{ form.csrf_token }} 
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.file_data.name }}">
+				File
+			</label>
+			<div class="controls">
+			  	{{ form.file_data }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form.description.name }}">
+				{{ form.description.label }}
+			</label>
+			<div class="controls">
+			  	{{ form.description }}
+			</div>
+		</div>
+
+		<input type="submit" value="Submit">
+	</form>
+
+	{% for field in form %}
+		{% if field.errors %}
+        	<ul>
+	            {% for error in field.errors %}
+	                <li>{{ field.errors }}
+	            {% endfor %}
+        	</ul>
+		{% endif %}
+	{% endfor %}
+{% endblock %}

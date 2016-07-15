@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    	<meta charset="utf-8">
+		<link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" media="screen">
+		
+		<title>{% block title %}Plansq{% endblock %}</title>
+
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+
+
+			<!-- Added timezone current user or quest to session -->
+        {%  if not session['timezone'] %}
+			<script src="{{ url_for('static', filename='js/jstz.js') }}"></script>
+			<script type="text/javascript">
+				var timezone = jstz.determine();
+				var timezone_name = timezone.name();
+
+				$.ajax({
+					type:'post',
+					url: "{{ url_for('views.set_data') }}",
+					header: {'Referer': location.href},
+					data: JSON.stringify({
+						'event':'timezone',
+						'timezone': timezone_name}, null, '\t'),
+					contentType: 'application/json;charset=UTF-8',
+					success: function(data){
+						console.log(data);
+				}});
+			</script>
+        {% endif %}
+
+
+
+		{% block head %}{% endblock %}
+	</head>
+	
+	<body>
+		<div class="container-fluid">
+			<div class="span3">
+				{% include 'menu.html' %}
+			</div>
+
+		<div class="container">
+			<div class="span10">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+
+		{% block js %}{% endblock %}
+		
+		<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+	</body>
+</html>

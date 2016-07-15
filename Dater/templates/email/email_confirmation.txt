@@ -1,0 +1,6 @@
+Dear {{ first_name }},
+you was register on Dater now. Click this link if you did it:
+
+{{ confirm_url }}
+
+If you didn't it, just ignore.

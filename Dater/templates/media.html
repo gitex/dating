@@ -1,0 +1,166 @@
+{% extends "main.html" %}
+
+{% block title %}Media of {{ media.user }}{% endblock %}
+
+{% block head %}
+<script type="text/javascript">
+	function makeAvatar () {
+		$.ajax({
+			type:'post',
+		 	url: "{{ url_for('.set_data') }}",
+		 	header: {'Referer': location.href},
+		 	data: JSON.stringify({
+		 		'event':'avatar',
+		 		'sid': {{ media.sid }} }, null, '\t'),
+		 	contentType: 'application/json;charset=UTF-8',
+		 	success: function(data){
+                if (data == true) {
+		 		    console.log(data);
+		 		}
+		 	}
+		 });
+	}
+
+	function addComment() {
+		var comment_text = document.getElementById('create_comment');
+		$.ajax({
+			type:'post',
+		 	url: "{{ url_for('.set_data') }}",
+		 	header: {'Referer': location.href},
+		 	data: JSON.stringify({
+		 		'event':'comment',
+		 		'file_id': '{{ media._id }}',
+		 		'text': comment_text.value }, null, '\t'),
+		 	contentType: 'application/json;charset=UTF-8',
+		 	success: function(data){
+		 		if (data.data == true) {
+		 			$('#comments').append('<div class="media"><a class="pull-left" href="{{ url_for(".view_user", login_of_user="%s"|format(current_user.login)) }}"><img class="media-object" width="64" height="64" src="{{ url_for(".media_path", first_dir="%s"|format(current_user.avatar.first_dir), second_dir="%s"|format(current_user.avatar.second_dir), filename="%s"|format(current_user.avatar.file_name)) }}"></a><div class="media-body"><a href="{{ url_for(".view_user", login_of_user="%s"|format(current_user.login)) }}"><h4 class="media-heading">{{ current_user.login }} (Me)</h4></a>' + comment_text.value + '</div></div>');
+		 		}
+		 	}
+		 });
+	}
+
+	function deletePhoto() {
+		$.ajax({
+			type:'post',
+		 	url: "{{ url_for('.del_data') }}",
+		 	header: {'Referer': location.href},
+		 	data: JSON.stringify({
+		 		'event':'photo',
+		 		'file_id': '{{ media._id }}'}, null, '\t'),
+		 	contentType: 'application/json;charset=UTF-8',
+		 	success: function(data){
+                if (data.result == true ) {
+                    document.location.href = "{{ url_for('.all_media_of_user', user_login='%s'|format(current_user.login)) }}";
+                }
+
+		 	}
+		 });
+	}
+
+	function likePhoto() {
+		$.ajax({
+			type:'post',
+		 	url: "{{ url_for('.set_data') }}",
+		 	header: {'Referer': location.href},
+		 	data: JSON.stringify({
+		 		'event':'like',
+		 		'file_id': '{{ media._id }}'}, null, '\t'),
+		 	contentType: 'application/json;charset=UTF-8',
+		 	success: function(data){
+		 		console.log(data);
+		 	}
+		 });
+	}
+      
+</script>
+{% endblock %}
+
+{% block content %}
+	<h1>Media of {{ media.user }}</h1>
+
+	<div class="row-fluid">
+		<div class="span8">
+			{% if media.type_file == 'image' %}
+				<img src="{{ url_for('.media_path', first_dir='%s'|format(media.first_dir), second_dir='%s'|format(media.second_dir), filename='%s'|format(media.file_name)) }}" style="text-align: center">
+			{% elif media.type_file == 'video' %}
+				<video src="{{ url_for('.media_path', first_dir='%s'|format(media.first_dir), second_dir='%s'|format(media.second_dir), filename='%s'|format(media.file_name)) }}" style="text-align: center" width="320" height="240" controls preload="none"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhyy>
+			{% endif %}
+
+			<h5 style="text-align: center">{{ media.sid }} of {{ all_photos_count }}</h5>
+
+			<!-- last and next pages -->
+			<ul class="pager" style="margin: 30px 10px 10px 10px;">
+				{% if media.sid > 1 %}
+			  		<li class="previous"><a href="{{ url_for('.media', user_login='%s'|format(media.user), media_sid='%d'|format(media.sid|int - 1))}}">&larr;  Previous</a></li>
+			  	{% else %}
+			  		<li class="previous disabled"><a href="#">&larr;  Previous</a></li>
+			  	{% endif %}
+			
+			  	{% if media.sid < all_photos_count %}
+			  		<li class="next"><a href="{{ url_for('.media', user_login='%s'|format(media.user), media_sid='%d'|format(media.sid|int + 1))}}">Next &rarr;</a></li>
+			  	{% else %}
+			  		<li class="next disabled"><a href="#">Next &rarr;</a></li>
+			  	{% endif %}
+
+			</ul>
+
+			<!-- Likes -->
+			<button type="button" class="btn btn-success" onclick='likePhoto();' style="margin: 30px 10px 10px 10px;">Like</button>
+
+			<ul id='likes'>
+				{% for like in likes %}
+					<li>{{ like.user }}</li>
+				{% endfor %}
+			</ul>
+
+			<!-- Comments -->
+			<div id='comments' style="margin: 30px 10px 10px 10px;">
+				{% if comments %}
+					{% for comment in comments %}
+						<div class="media">
+							<a class="pull-left" href="{{ url_for('.view_user', login_of_user='%s'|format(comment.user)) }}">
+								<img class="media-object" width="64" height="64" src="{{ url_for('.media_path', first_dir='%s'|format(media.first_dir), second_dir='%s'|format(media.second_dir), filename='%s'|format(media.file_name)) }}">
+							</a>
+							<div class="media-body">
+								<a href="{{ url_for('.view_user', login_of_user='%s'|format(comment.user)) }}"><h4 class="media-heading">{{ comment.user }} 
+								{% if comment.user == current_user.login %} (Me){% endif %}
+								</h4></a>
+								{{ comment.text }}<button type="button" class="close" data-toggle="modal" data-target="#myModal">&times;</button>
+
+							</div>
+							<div class="media-footer">
+								Hi!
+							</div>
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
+			<!-- {% include 'report/comment.html' %} -->
+			<textarea rows="3" style="margin: 30px 10px 10px 10px;" id='create_comment'></textarea>
+			<button type="button" class="btn btn-primary" onclick="addComment();">Comment</button>
+		</div>
+
+		<div class="span4 pull-right">
+
+			{% if media.description %}
+				<dt>Description</dt><dd>{{ media.description }}</dd>
+			{% endif %}
+				<dt>Date</dt><dd>{{ media.load_datetime.strftime('%Y-%m-%d') }}</dd>
+			
+            {% if current_user.login == media.user %}
+            	<h3>User's option</h3>
+                <button type="button" class="btn btn-primary" onclick='makeAvatar();' style="margin: 30px 10px 10px 10px;">Make it for avatar</button>
+                <button type="button" class="btn btn-danger" onclick='deletePhoto();' style="margin: 30px 10px 10px 10px;">Delete</button>
+            {% endif %}
+		</div>
+
+		<div class="span4 pull-right">
+			<h3>Everybody's option</h3>
+			<button class="btn btn-warning span6" type="button" data-toggle="modal" data-target="#myModal">Report</button>
+
+			{% include 'report/media.html' %}
+			<!-- <button type="button" class="btn btn-primary" onclick='makeAvatar();' style="margin: 30px 10px 10px 10px;">Make it for avatar</button> -->
+		</div>
+	</div>
+{% endblock %}

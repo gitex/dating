@@ -1,0 +1,25 @@
+		<div class="control-group">
+			<label class="control-label" for="{{ form..name }}">
+				{{ form..label }}
+			</label>
+			<div class="controls">
+			  {{ form. }}
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="{{ form..name }}">
+				{{ form..label }}
+			</label>
+			<div class="controls">
+				{% for point in form. %}
+					<label class="checkbox">
+						{% if point.value in current_user. %}
+							  {{ point(checked="checked") }} {{ point.label.text }}
+						{% else %}
+							{{ point }} {{ point.label.text }}
+						{% endif %}
+					</label>
+				{% endfor %}
+			</div>
+		</div>

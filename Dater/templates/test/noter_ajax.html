@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NoterAjax</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script>
+        function add_info() {
+            $.ajax({
+                url: 'http://127.0.0.1:5000/load',
+                type: "GET",
+                dataType: "json",
+                data: { event: 'random_user' },
+                success: function(data){
+                     document.getElementById('login').innerHTML = data.random_user[1];
+                     document.getElementById('sid').innerHTML = data.random_user[0];
+                }});
+        }
+    </script>
+</head>
+<body>
+    <ul>
+        <li id="login">{{ random_user.login }}</li>
+        <li id="sid">{{ random_user.sid }}</li>
+    </ul>
+    <button id="submit" onclick="add_info()">Skip</button>
+    <div id="result"></div>
+</body>
+</html>

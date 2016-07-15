@@ -1,0 +1,5 @@
+{% for user in users %}
+	<p>Name :{{ user.first_name }} {{ user.last_name }}</p>
+	<p>Sid: {{ user.sid }}</p>
+	<p>Coordinates: {{ user.coordinates }}</p>
+{% endfor %}

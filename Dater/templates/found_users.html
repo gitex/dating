@@ -1,0 +1,30 @@
+{% extends "main.html" %}
+
+{% block title %}Found users{% endblock %}
+
+{% block content %}	
+	<h1>Found users</h1>
+
+	<div class="row-fluid">
+	  	<div class="span4">
+			{% for user in found_users %}
+				<dt>
+					{{ user.login }} (<a href="/user/{{ user.login }}">profile</a>)
+					{% if user.city %}
+						[{{ user.country }}, {{ user.city }}]
+					{% endif %}
+				</dt>
+				<dd>
+					{{ user.birthday }}
+				</dd>
+				
+				
+			{% endfor %}
+		</div>
+
+		<div class="span4 pull-right">
+			<!-- pass -->
+		</div>
+	</div>
+
+{% endblock %}

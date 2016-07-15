@@ -1,0 +1,24 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<div class="tabbable tabs-left">
+  <ul class="nav nav-tabs" id="myTab">
+    <li class="active"><a href="#tabs-1" data-toggle="tab">New Users List</a></li>
+    <li><a href="#tabs-2" data-toggle="tab">Complaints List</a></li>
+  </ul>
+
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="tabs-1">
+        <p><a href="/Dater/admin/create/page/">Create New Page</a>
+        <p><a href="/Dater/admin/list/comlaints/">Сomplaints list</a>
+    </div>
+
+     <div class="tab-pane" id="tabs-2">
+        <p>Donec id elit non </p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

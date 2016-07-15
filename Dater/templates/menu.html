@@ -1,0 +1,26 @@
+<ul class="nav nav-list span3">
+  <li class="nav-header">{{ _('Authorization') }}</li>
+  <li><a href="/login">{{ _('Login') }}</a></li>
+  <li><a href="/register">{{ _('Register') }}</a></li>
+    <li><a href="/confirm">{{ _('Confirm password') }}</a></li>
+  <li><a href="/logout">{{ _('Logout') }}</a></li>
+
+  <li class="nav-header">{{ _('My elements') }}</li>
+  <li><a href="/profile">{{ _('My profile') }}</a></li>
+  <li><a href="/edit">{{ _('Edit profile') }}</a></li>
+  <li><a href="/my_followings">{{ _('My followings') }}</a></li>
+
+  <li class="nav-header">{{ _('Other Users') }}</li>
+  <li><a href="/last_users">{{ _('Last users') }}</a></li>
+  <li><a href="/noter">{{ _('Like or not') }}</a></li>
+  <li><a href="/search">{{ _('Search Users') }}</a></li>
+  <li><a href="/chat?sid=30">{{ _('Chat') }}</a></li>
+
+  <li class="nav-header">{{ _('Media files') }}</li>
+  <li><a href="/media/{{ current_user.login }}">{{ _('My medias') }}</a></li>
+  <li><a href="/load_file">{{ _('Add file') }}</a></li>
+
+
+  <li class="nav-header">{{ _('To Admin') }}</li>
+  <li><a href="/admin">{{ _('Admin part') }}</a></li>
+</ul>

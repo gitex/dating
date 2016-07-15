@@ -1,0 +1,136 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<div class="tabbable">
+  <ul class="nav nav-tabs" id="myTab">
+    <li class="active">
+    	<a href="#tabs-1" data-toggle="tab">
+			<i class="icon-filter"></i>&nbsp;New Complaints&nbsp;&nbsp;
+				{% if new_complaints|length == 0 %}
+					<span class="badge pull-right"> 
+				{% else %}
+					<span class="badge badge-success pull-right">
+				{% endif %}
+			{{ new_complaints|length }}</span>
+    	</a>
+    </li>
+
+    <li>
+    	<a href="#tabs-2" data-toggle="tab" id="all_comp"><i class="icon-th-list"></i>&nbsp;All Complaints&nbsp;&nbsp;<span class="badge badge-inverse pull-right">{{ all_complaints|length }}</span></a>
+    </li>
+    	
+    <li>
+    	<a href="#tabs-3" data-toggle="tab" id="settings"><i class="icon-cog"></i>&nbsp;Settings</a>
+    </li>
+  </ul>
+
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="tabs-1">
+        {% if new_complaints %}
+        	<h3>New complaints</h3>
+			<table class="table table-striped table-bordered">
+				<thead>
+					<th class="column-header">Sourse</th>
+					<th class="column-header"><a href="/Dater/admin/complaintsofusers/?sort=1" title="Sort by Date">Suspect</a></th>
+					<th class="column-header">Description</th>
+					<th class="column-header">Date</th>
+					<th class="column-header">Image URL</th>
+					<th class="column-header">Status</th>
+					<th class="column-header">Action</th>
+				</thead>
+				<tbody>
+					{% for user in new_complaints %}
+					<tr>
+						<td>{{ user.sourse }}</td>
+						<td>{{ user.suspect }}</td>
+						<td>{{ user.description }}</td>
+						<td>{{ user.date }}</td>
+						<td>{{ user.image_url }}</td>
+						<td>{{ user.status }}
+						<td>
+							<div class="btn-group">
+							  <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> Пользователь</a>
+							  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+							  <ul class="dropdown-menu">
+							    <li><a href="#"><i class="icon-pencil"></i> Редактировать</a></li>
+							    <li><a href="#"><i class="icon-trash"></i> Удалить</a></li>
+							    <li><a href="#"><i class="icon-ban-circle"></i> Забанить</a></li>
+							    <li class="divider"></li>
+							    <li><a href="#"><i class="i"></i> Сделать админом</a></li>
+							  </ul>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<div class="alert alert-info"><b>We haven't new complaints.</b> You can to see the old complaints in <a href="#tabs-2" data-toggle="tab">all Complaints</a></div>
+		{% endif %}
+    </div>
+
+     <div class="tab-pane" id="tabs-2">
+     	{% if all_complaints %}
+     		<h3>All complaints</h3>
+	        <table class="table table-striped table-bordered">
+				<thead>
+					<th class="column-header">Sourse</th>
+					<th class="column-header">Suspect</th>
+					<th class="column-header">Description</th>
+					<th class="column-header">Date</th>
+					<th class="column-header">Image URL</th>
+					<th class="column-header">Action</th>
+				</thead>
+				<tbody>
+					{% for user in all_complaints %}
+						<tr>
+							<td>{{ user.sourse }}</td>
+							<td>{{ user.suspect }}</td> 
+							<td>{{ user.description }}</td>
+							<td>{{ user.date }}</td>
+							<td>{{ user.image_url }}</td>
+							<td>
+								<div class="btn-group">
+								  <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> Пользователь</a>
+								  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+								  <ul class="dropdown-menu">
+								    <li><a href="#"><i class="icon-pencil"></i> Редактировать</a></li>
+								    <li><a href="#"><i class="icon-trash"></i> Удалить</a></li>
+								    <li><a href="#"><i class="icon-ban-circle"></i> Забанить</a></li>
+								    <li class="divider"></li>
+								    <li><a href="#"><i class="i"></i> Сделать админом</a></li>
+								  </ul>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<div class="alert alert-info"><b>We haven't complaints.</b></div>
+		{% endif %}
+    </div>
+    
+    <div class="tab-pane" id="tabs-3">
+    	<h3>Settings</h3>
+    	<dl class="dl-horizontal">
+		  <dt>...</dt>
+		  <dd>...</dd>
+		</dl>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
